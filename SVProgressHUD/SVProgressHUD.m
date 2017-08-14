@@ -1402,6 +1402,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     
     if(!_imageView) {
         _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, _imageViewSize.width, _imageViewSize.height)];
+        [_imageView.layer setMinificationFilter:kCAFilterTrilinear];
     }
     if(!_imageView.superview) {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000
@@ -1468,7 +1469,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     // Add blur effects
     UIBlurEffectStyle blurEffectStyle = self.defaultStyle == SVProgressHUDStyleDark ? UIBlurEffectStyleDark : UIBlurEffectStyleExtraLight;
     UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:blurEffectStyle];
-    
+
     self.hudView.effect = blurEffect;
     self.hudVibrancyView.effect = [UIVibrancyEffect effectForBlurEffect:blurEffect];
 }
