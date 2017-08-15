@@ -207,6 +207,10 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     [self sharedView].maximumDismissTimeInterval = interval;
 }
 
++ (void)setFrameChangeAnimationDuration:(NSTimeInterval)duration {
+    [self sharedView].frameChangeAnimationDuration = duration;
+}
+
 + (void)setFadeInAnimationDuration:(NSTimeInterval)duration {
     [self sharedView].fadeInAnimationDuration = duration;
 }
@@ -432,6 +436,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
         _minimumDismissTimeInterval = 5.0;
         _maximumDismissTimeInterval = CGFLOAT_MAX;
 
+        _frameChangeAnimationDuration = SVProgressHUDDefaultAnimationDuration;
         _fadeInAnimationDuration = SVProgressHUDDefaultAnimationDuration;
         _fadeOutAnimationDuration = SVProgressHUDDefaultAnimationDuration;
         
@@ -879,7 +884,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     // When the HUD is shown and there are no other animations, perform a frame changing frame
     // to make it looks smoothly.
     if (!(self.hudView.alpha != 1.0f && self.fadeInAnimationDuration > 0)) {
-        [UIView animateWithDuration:0.3 animations: updatingBlock];
+        [UIView animateWithDuration:self.frameChangeAnimationDuration animations: updatingBlock];
     } else {
         updatingBlock();
     }
@@ -1436,6 +1441,10 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 
 - (void)setMinimumDismissTimeInterval:(NSTimeInterval)minimumDismissTimeInterval {
     if (!_isInitializing) _minimumDismissTimeInterval = minimumDismissTimeInterval;
+}
+
+- (void)setFrameChangeAnimationDuration:(NSTimeInterval)frameChangeAnimationDuration {
+    if (!_isInitializing) _frameChangeAnimationDuration = frameChangeAnimationDuration;
 }
 
 - (void)setFadeInAnimationDuration:(NSTimeInterval)duration {
