@@ -883,11 +883,19 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     };
     // When the HUD is shown and there are no other animations, perform a frame changing frame
     // to make it looks smoothly.
-    if (!(self.hudView.alpha != 1.0f && self.fadeInAnimationDuration > 0)) {
-        [UIView animateWithDuration:self.frameChangeAnimationDuration animations: updatingBlock];
+    if (self.hudView.alpha == 1.0f) {
+        [UIView animateWithDuration:self.frameChangeAnimationDuration
+                         animations: updatingBlock
+                         completion:^(BOOL completed) {
+                             [self performStatusShowing:status];
+                         }];
     } else {
         updatingBlock();
+        [self performStatusShowing:status];
     }
+}
+
+- (void)performStatusShowing:(NSString *)status {
     
     // Update accessibility as well as user interaction
     if(self.defaultMaskType != SVProgressHUDMaskTypeNone) {
