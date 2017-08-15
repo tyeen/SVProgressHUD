@@ -872,8 +872,17 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 
 - (void)showStatus:(NSString*)status {
     // Update the HUDs frame to the new content and position HUD
-    [self updateHUDFrame];
-    [self positionHUD:nil];
+    void (^updatingBlock)(void) = ^{
+        [self updateHUDFrame];
+        [self positionHUD:nil];
+    };
+    // When the HUD is shown and there are no other animations, perform a frame changing frame
+    // to make it looks smoothly.
+    if (!(self.hudView.alpha != 1.0f && self.fadeInAnimationDuration > 0)) {
+        [UIView animateWithDuration:0.3 animations: updatingBlock];
+    } else {
+        updatingBlock();
+    }
     
     // Update accessibility as well as user interaction
     if(self.defaultMaskType != SVProgressHUDMaskTypeNone) {
