@@ -613,17 +613,17 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
                                              selector:@selector(positionHUD:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(positionHUD:)
                                                  name:UIKeyboardDidHideNotification
                                                object:nil];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(positionHUD:)
                                                  name:UIKeyboardWillShowNotification
                                                object:nil];
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(positionHUD:)
                                                  name:UIKeyboardDidShowNotification
@@ -682,7 +682,8 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
             }
         }
     } else {
-        keyboardHeight = self.visibleKeyboardHeight;
+        // Do not count keyboard height.
+        keyboardHeight = 0;// self.visibleKeyboardHeight;
     }
 #endif
     
